@@ -15,7 +15,7 @@
           <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Master</span></a>
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="chat.html">Penerima</a></li>
-            <li><a class="nav-link" href="portfolio.html">Bantuan</a></li>
+            <li><a class="nav-link" href="{{ route('bantuan') }}">Bantuan</a></li>
             {{-- <li><a class="nav-link" href="blog.html">Blog</a></li>
             <li><a class="nav-link" href="calendar.html">Calendar</a></li> --}}
           </ul>
