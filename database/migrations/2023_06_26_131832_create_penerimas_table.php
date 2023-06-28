@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('alamat', 500);
             $table->string('gender', 10);
             $table->string('rekening',100);
-            $table->date('tanggalDibantu');
+            // $table->date('tanggalDibantu');
             $table->timestamps();
         });
     }

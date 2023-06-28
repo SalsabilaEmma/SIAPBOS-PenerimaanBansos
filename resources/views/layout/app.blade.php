@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{{ url('otika') }}/assets/css/components.css">
     <!-- Custom style CSS -->
     <link rel="stylesheet" href="{{ url('otika') }}/assets/css/custom.css">
+    <link rel="stylesheet" href="{{ url('otika') }}/assets/bundles/chocolat/dist/css/chocolat.css">
+    <link rel="stylesheet" href="{{ url('otika') }}/assets/bundles/datatables/datatables.min.css">
     {{-- <link rel="stylesheet" href="{{ url('otika') }}/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css"> --}}
     <link rel='shortcut icon' type='image/x-icon' href='{{ url('otika') }}/assets/img/favicon.ico' />
 
@@ -56,6 +58,12 @@
     <!-- Custom JS File -->
     <script src="{{ url('otika') }}/assets/js/custom.js"></script>
 
+    <script src="{{ url('otika') }}/assets/bundles/datatables/datatables.min.js"></script>
+    <script src="{{ url('otika') }}/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js">
+    </script>
+    <script src="{{ url('otika/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ url('otika/assets/js/page/datatables.js') }}"></script>
+    <script src="{{ url('otika') }}/assets/bundles/summernote/summernote-bs4.js"></script>
     @section('js')
     @show
 </body>

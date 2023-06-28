@@ -35,10 +35,10 @@ class BantuanController extends Controller
 
         // Total records
         $totalRecords = Bantuan::select('count(*) as allcount')->count();
-        // $totalRecordswithFilter = Kategori::select('count(*) as allcount')->where('tahun', 'like', '%' . $searchValue . '%')->count();
+        // $totalRecordswithFilter = Kategori::select('count(*) as allcount')->where('tanggal', 'like', '%' . $searchValue . '%')->count();
         $totalRecordswithFilter = Bantuan::select('count(*) as allcount')->where(function ($query) use ($searchValue) {
             $query->where('jenisBantuan', 'like', '%' . $searchValue . '%')
-                ->orWhere('tahun', 'like', '%' . $searchValue . '%');
+                ->orWhere('tanggal', 'like', '%' . $searchValue . '%');
         })->count();
 
         // Fetch records
@@ -46,7 +46,7 @@ class BantuanController extends Controller
             // ->where('name', 'like', '%' . $searchValue . '%') //kalo
             ->where(function ($query) use ($searchValue) {
                 $query->where('jenisBantuan', 'like', '%' . $searchValue . '%')
-                    ->orWhere('tahun', 'like', '%' . $searchValue . '%');
+                    ->orWhere('tanggal', 'like', '%' . $searchValue . '%');
             })
             ->skip($start)
             ->take($rowperpage)
@@ -56,13 +56,13 @@ class BantuanController extends Controller
         if (!empty($records)) {
             foreach ($records as $record) {
                 $id = $record->id;
-                $tahun = $record->tahun;
+                $tanggal = $record->tanggal;
                 $jenisBantuan = $record->jenisBantuan;
                 $jumlah = $record->jumlah;
 
                 $data_arr[] = array(
                     'id' => $id,
-                    'tahun' => $tahun,
+                    'tanggal' => $tanggal,
                     'jenisBantuan' => $jenisBantuan,
                     'jumlah' => $jumlah,
                 );
@@ -92,13 +92,13 @@ class BantuanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tahun' => 'required',
+            'tanggal' => 'required',
             'jenisBantuan' => 'required',
             'jumlah' => 'required',
         ]);
 
         Bantuan::create([
-            'tahun' => $request->tahun,
+            'tanggal' => $request->tanggal,
             'jenisBantuan' => $request->jenisBantuan,
             'jumlah' => $request->jumlah,
         ]);
@@ -129,9 +129,9 @@ class BantuanController extends Controller
     public function update(Request $request, string $id)
     {
         $bantuan = Bantuan::findOrFail($id);
-        $bantuan->tahun = $request->input('tahun');
-        $bantuan->jenisBantuan = $request->input('jenisBantuan');
-        $bantuan->jumlah = $request->input('jumlah');
+        $bantuan->tanggal = $request->input('tanggal') ?? $bantuan->tanggal;
+        $bantuan->jenisBantuan = $request->input('jenisBantuan') ?? $bantuan->jenisBantuan;
+        $bantuan->jumlah = $request->input('jumlah') ?? $bantuan->jumlah;
         $bantuan->save();
 
         return redirect()->route('bantuan')->with('success', 'Data Berhasil Diubah!');

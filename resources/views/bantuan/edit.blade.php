@@ -3,30 +3,23 @@
     <div class="main-content">
         <div class="col-md-12 col-lg-12 col-xl-12">
             <div class="card">
+                <div class="card-header">
+                    <h4>Edit Data Bantuan</h4>
+                </div>
                 <div class="modal-body">
                     <form action="{{ route('update.bantuan', $bantuan->id) }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-sm-3 col-lg-3">
                                 <div class="form-group">
-                                    <label>Tahun</label>
+                                    <label>Tanggal</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend"></div>
-                                        {{-- <input type="text" class="form-control @error('tahun') is-invalid @enderror"
-                                            id="tahun" placeholder="Masukkan Tahun" name="tahun" required> --}}
-                                        <select class="form-control @error('tahun') is-invalid @enderror" id="tahun"
-                                            name="tahun" value="{{ $bantuan->tahun }}"> required>
-                                            <option value="{{ $bantuan->tahun }}">{{ $bantuan->tahun }}</option>
-                                            @php
-                                                $currentYear = date('Y');
-                                                $startYear = $currentYear - 15; // Ubah angka 10 sesuai dengan jumlah tahun yang ingin Anda tampilkan
-                                                for ($year = $startYear; $year <= $currentYear; $year++) {
-                                                    echo '<option value="' . $year . '">' . $year . '</option>';
-                                                }
-                                            @endphp
-                                        </select>
+                                        {{-- <input type="text" class="form-control @error('tanggal') is-invalid @enderror"
+                                            id="tanggal" placeholder="Masukkan Tanggal" name="tanggal" required> --}}
+                                            <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" value="{{ $bantuan->tanggal }}" required>
 
-                                        @error('tahun')
+                                        @error('tanggal')
                                             <small>{{ $message }}</small>
                                         @enderror
                                     </div>

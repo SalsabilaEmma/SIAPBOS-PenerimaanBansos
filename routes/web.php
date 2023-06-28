@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PenerimaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,16 @@ Route::get('/', function () {
 
 // -----------------------------------------------------------------------------------------------------------  Admin
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [Controller::class, 'index'])->name('dashboard');
+    Route::get('/', [Controller::class, 'index'])->name('dashboard');
+
+    // Penerima
+    Route::get('/admin-penerima', [PenerimaController::class, 'index'])->name('penerima');
+    Route::get('/admin-penerima-get', [PenerimaController::class, 'indexGet'])->name('penerima.get');
+    Route::get('/admin-penerima/detail/{id}', [PenerimaController::class, 'show'])->name('penerima.detail');
+    Route::post('/admin-penerima/store', [PenerimaController::class, 'store'])->name('store.penerima');
+    Route::get('/admin-penerima/{id}', [PenerimaController::class, 'edit'])->name('edit.penerima');
+    Route::post('/admin-penerima/delete/{id}', [PenerimaController::class, 'destroy'])->name('delete.penerima');
+    Route::post('/admin-penerima/update{id}', [PenerimaController::class, 'update'])->name('update.penerima');
 
     // Bantuan
     Route::get('/admin-bantuan', [BantuanController::class, 'index'])->name('bantuan');

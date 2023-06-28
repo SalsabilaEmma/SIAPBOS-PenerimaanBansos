@@ -3,20 +3,20 @@
     <div class="main-content">
         @if ($message = Session::get('success'))
             <div class="alert alert-success alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{-- <button type="button" class="close" data-dismiss="alert">×</button> --}}
                 <strong>{{ $message }}</strong>
             </div>
         @endif
         @if ($message = Session::get('error'))
             <div class="alert alert-danger alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{-- <button type="button" class="close" data-dismiss="alert">×</button> --}}
                 <strong>{{ $message }}</strong>
             </div>
         @endif
         <div class="col-md-12 col-lg-12 col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Menu Bantuan</h4>
+                    <h4>Data Bantuan</h4>
                 </div>
                 <div class="card-body">
                     <div class="text-right">
@@ -30,7 +30,7 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>
-                                    <th>Tahun</th>
+                                    <th>Tanggal</th>
                                     <th>Jenis Bantuan</th>
                                     <th>Jumlah</th>
                                     <th>Action</th>
@@ -40,7 +40,7 @@
                                 @foreach ($bantuan as $no => $data)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td class="text-center">{{ $data->tahun }}</td>
+                                        <td class="text-center">{{ date('d-m-Y', strtotime($data->tanggal)) }}</td>
                                         <td>{{ $data->jenisBantuan }}</td>
                                         <td>Rp {{ number_format($data->jumlah, 0, ',', '.') }}</td>
                                         <td class="text-center">
@@ -80,24 +80,13 @@
                         <div class="row">
                             <div class="col-sm-3 col-lg-3">
                                 <div class="form-group">
-                                    <label>Tahun</label>
+                                    <label>Tanggal</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend"></div>
-                                        {{-- <input type="text" class="form-control @error('tahun') is-invalid @enderror"
-                                            id="tahun" placeholder="Masukkan Tahun" name="tahun" required> --}}
-                                        <select class="form-control @error('tahun') is-invalid @enderror" id="tahun"
-                                            name="tahun" required>
-                                            <option value="">Pilih Tahun</option>
-                                            @php
-                                                $currentYear = date('Y');
-                                                $startYear = $currentYear - 15; // Ubah angka 10 sesuai dengan jumlah tahun yang ingin Anda tampilkan
-                                                for ($year = $startYear; $year <= $currentYear; $year++) {
-                                                    echo '<option value="' . $year . '">' . $year . '</option>';
-                                                }
-                                            @endphp
-                                        </select>
-
-                                        @error('tahun')
+                                        {{-- <input type="text" class="form-control @error('tanggal') is-invalid @enderror"
+                                            id="tanggal" placeholder="Masukkan Tanggal" name="tanggal" required> --}}
+                                            <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" required>
+                                        @error('tanggal')
                                             <small>{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -165,8 +154,8 @@
                         }
                     },
                     {
-                        data: 'tahun',
-                        name: 'Tahun',
+                        data: 'tanggal',
+                        name: 'Tanggal',
                         className: 'text-center',
                     },
                     {
