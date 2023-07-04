@@ -28,7 +28,7 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::middleware(['role:admin'])->group(function () {
         // -----------------------------------------------------------------------------------------------------------  Admin
-        Route::get('/', [Controller::class, 'index'])->name('dashboard');
+        Route::get('/dashboard-admin', [Controller::class, 'admin'])->name('dashboard');
 
         // Penerima
         Route::get('/admin-penerima', [PenerimaController::class, 'index'])->name('penerima');
