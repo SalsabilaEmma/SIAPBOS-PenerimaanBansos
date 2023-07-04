@@ -13,4 +13,12 @@ class Controller extends BaseController
     {
         return view('index');
     }
+    public function staff()
+    {
+        return view('index');
+    }
+    public function pimpinan()
+    {
+        return view('indexPimpinan');
+    }
 }
