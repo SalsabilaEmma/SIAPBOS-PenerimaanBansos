@@ -30,6 +30,8 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>
+                                    <th>Nama Penerima</th>
+                                    <th>Kelurahan</th>
                                     <th>Tanggal</th>
                                     <th>Jenis Bantuan</th>
                                     <th>Jumlah</th>
@@ -40,6 +42,8 @@
                                 @foreach ($bantuan as $no => $data)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $data->penerima->nama ?? ''}}</td>
+                                        <td>{{ $data->penerima->kelurahan ?? ''}}</td>
                                         <td class="text-center">{{ date('d-m-Y', strtotime($data->tanggal)) }}</td>
                                         <td>{{ $data->jenisBantuan }}</td>
                                         <td>Rp {{ number_format($data->jumlah, 0, ',', '.') }}</td>
@@ -78,11 +82,22 @@
                     <form action="{{ route('store.bantuan') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
-                            <div class="col-sm-3 col-lg-3">
+                            <div class="col-sm-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Penerima</label>
+                                    <select class="form-control" name="idPenerima">
+                                        <option disabled selected value="">Pilih Penerima</option>
+                                        @foreach ($penerima as $j)
+                                            <option value="{{ $j->id }}">{{ $j->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-6">
                                 <div class="form-group">
                                     <label>Tanggal</label>
                                     <div class="input-group">
-                                        <div class="input-group-prepend"></div>
+                                        <div class="input-group-prepend datepicker"></div>
                                         {{-- <input type="text" class="form-control @error('tanggal') is-invalid @enderror"
                                             id="tanggal" placeholder="Masukkan Tanggal" name="tanggal" required> --}}
                                             <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" required>
@@ -92,7 +107,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-5 col-lg-5">
+                            <div class="col-sm-6 col-lg-6">
                                 <div class="form-group">
                                     <label>Jenis Bantuan</label>
                                     <div class="input-group">
@@ -109,7 +124,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-lg-4">
+                            <div class="col-sm-6 col-lg-6">
                                 <div class="form-group">
                                     <label>Jumlah</label>
                                     <div class="input-group">

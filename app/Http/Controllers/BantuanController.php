@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bantuan;
+use App\Models\Penerima;
 use Illuminate\Http\Request;
 
 class BantuanController extends Controller
@@ -13,7 +14,8 @@ class BantuanController extends Controller
     public function index()
     {
         $bantuan = Bantuan::latest()->get();
-        return view('bantuan.index', compact('bantuan'));
+        $penerima = Penerima::all();
+        return view('bantuan.index', compact('bantuan','penerima'));
     }
 
     public function indexGet(Request $request)
@@ -56,12 +58,14 @@ class BantuanController extends Controller
         if (!empty($records)) {
             foreach ($records as $record) {
                 $id = $record->id;
+                $idPenerima = $record->idPenerima;
                 $tanggal = $record->tanggal;
                 $jenisBantuan = $record->jenisBantuan;
                 $jumlah = $record->jumlah;
 
                 $data_arr[] = array(
                     'id' => $id,
+                    'idPenerima' => $idPenerima,
                     'tanggal' => $tanggal,
                     'jenisBantuan' => $jenisBantuan,
                     'jumlah' => $jumlah,
@@ -92,12 +96,14 @@ class BantuanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'idPenerima' => 'required',
             'tanggal' => 'required',
             'jenisBantuan' => 'required',
             'jumlah' => 'required',
         ]);
 
         Bantuan::create([
+            'idPenerima' => $request->idPenerima,
             'tanggal' => $request->tanggal,
             'jenisBantuan' => $request->jenisBantuan,
             'jumlah' => $request->jumlah,
@@ -129,6 +135,7 @@ class BantuanController extends Controller
     public function update(Request $request, string $id)
     {
         $bantuan = Bantuan::findOrFail($id);
+        $bantuan->idPenerima = $request->input('idPenerima') ?? $bantuan->idPenerima;
         $bantuan->tanggal = $request->input('tanggal') ?? $bantuan->tanggal;
         $bantuan->jenisBantuan = $request->input('jenisBantuan') ?? $bantuan->jenisBantuan;
         $bantuan->jumlah = $request->input('jumlah') ?? $bantuan->jumlah;

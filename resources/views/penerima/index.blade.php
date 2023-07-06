@@ -20,13 +20,13 @@
                 </div>
                 <div class="card-body">
                     <div class="text-right">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#paket">Tambah
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalTambah">Tambah
                             Data</button>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped thisTable" id="thisTable" style="width:100%;">
+                        <table class="table table-striped" style="width:100%;">
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>

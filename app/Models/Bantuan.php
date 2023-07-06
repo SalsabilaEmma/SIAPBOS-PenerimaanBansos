@@ -9,5 +9,10 @@ class Bantuan extends Model
 {
     use HasFactory;
     protected $table = 'bantuans';
-    protected $fillable = ['tanggal', 'jenisBantuan', 'jumlah'];
+    protected $fillable = ['idPenerima','tanggal', 'jenisBantuan', 'jumlah'];
+
+    public function penerima()
+    {
+        return $this->belongsTo('App\Models\Penerima', 'idPenerima');
+    }
 }
