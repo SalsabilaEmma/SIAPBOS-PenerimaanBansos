@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Bantuan;
 use App\Models\Penerima;
 use Illuminate\Http\Request;
+use Dompdf\Dompdf;
+use Illuminate\Support\Facades\View;
 
 class BantuanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $bantuan = Bantuan::latest()->get();
         $penerima = Penerima::all();
-        return view('bantuan.index', compact('bantuan','penerima'));
+        $tahunList = Bantuan::selectRaw('YEAR(tanggal) AS tahun')->distinct()->pluck('tahun')->toArray();
+        return view('bantuan.index', compact('bantuan','penerima','tahunList'));
     }
 
     public function indexGet(Request $request)
@@ -82,17 +82,6 @@ class BantuanController extends Controller
         // echo json_encode($response);
         // exit;
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -112,26 +101,11 @@ class BantuanController extends Controller
         return redirect()->route('bantuan')->with('success', 'Data Berhasil Ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Request $request, $id)
     {
         $bantuan = Bantuan::findOrFail($id);
         return view('bantuan.edit', compact('bantuan'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $bantuan = Bantuan::findOrFail($id);
@@ -144,14 +118,29 @@ class BantuanController extends Controller
         return redirect()->route('bantuan')->with('success', 'Data Berhasil Diubah!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $bantuan = Bantuan::findOrFail($id);
         $bantuan->delete();
 
         return redirect(route('bantuan'))->with(['error' => 'Data Berhasil Dihapus!']);
+    }
+    public function generatePDF(Request $request)
+    {
+        $tahun = $request->tahun;
+        $bantuan = Bantuan::whereYear('tanggal', $tahun)->latest()->get();
+        $menu = 'Bantuan';
+        // Buat objek Dompdf
+        $dompdf = new Dompdf();
+
+        // Render HTML ke dalam PDF
+        $dompdf->setBasePath(public_path());
+        $html = View::make('penerima.pdf', compact('bantuan', 'menu'))->render();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Keluarkan file PDF ke browser
+        return $dompdf->stream('Laporan-Bantuan.pdf');
     }
 }

@@ -4,29 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Penerima;
 use Illuminate\Http\Request;
+use Dompdf\Dompdf;
+use Illuminate\Support\Facades\View;
+
 
 class PenerimaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $penerima = Penerima::latest()->get();
         return view('penerima.index', compact('penerima'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -52,9 +41,6 @@ class PenerimaController extends Controller
         return redirect()->route('penerima')->with('success', 'Data Berhasil Ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $penerima = Penerima::findOrFail($id);
@@ -64,18 +50,12 @@ class PenerimaController extends Controller
         return response()->json(['error' => 'Data not found.'], 404);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $penerima = Penerima::findOrFail($id);
         return view('penerima.edit', compact('penerima'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $penerima = Penerima::findOrFail($id);
@@ -91,14 +71,29 @@ class PenerimaController extends Controller
         return redirect()->route('penerima')->with('success', 'Data Berhasil Diubah!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $penerima = Penerima::findOrFail($id);
         $penerima->delete();
 
         return redirect(route('penerima'))->with(['error' => 'Data Berhasil Dihapus!']);
+    }
+
+    public function generatePDF()
+    {
+        $penerima = Penerima::latest()->get();
+        $menu = 'Penerima';
+        // Buat objek Dompdf
+        $dompdf = new Dompdf();
+
+        // Render HTML ke dalam PDF
+        $dompdf->setBasePath(public_path());
+        $html = View::make('penerima.pdf', compact('penerima', 'menu'))->render();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Keluarkan file PDF ke browser
+        return $dompdf->stream('Laporan-Penerima.pdf');
     }
 }

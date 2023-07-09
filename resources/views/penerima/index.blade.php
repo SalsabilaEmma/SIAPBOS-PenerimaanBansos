@@ -20,6 +20,7 @@
                 </div>
                 <div class="card-body">
                     <div class="text-right">
+                        <a href="{{ route('pdf.penerima') }}" target="_blank" class="btn btn-primary">Cetak PDF</a>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalTambah">Tambah
                             Data</button>
                     </div>
@@ -49,7 +50,8 @@
                                             <form action="{{ route('delete.penerima', $data->id) }}"
                                                 onsubmit="return confirm('Apakah Anda Yakin ?');" method="POST">
                                                 @csrf
-                                                <button type="button" class="btn btn-outline-primary btn-sm fa fa-eye" data-id="{{ $data->id }}" onclick="showDetail(this)"></button>
+                                                <button type="button" class="btn btn-outline-primary btn-sm fa fa-eye"
+                                                    data-id="{{ $data->id }}" onclick="showDetail(this)"></button>
                                                 <a href="{{ route('edit.penerima', $data->id) }}" type="button"
                                                     class="btn btn-outline-warning btn-sm fa fa-pen"></a>
                                                 <button class="btn btn-outline-danger btn-sm fa fa-trash" type="submit">

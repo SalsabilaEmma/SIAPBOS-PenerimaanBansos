@@ -19,9 +19,27 @@
                     <h4>Data Bantuan</h4>
                 </div>
                 <div class="card-body">
-                    <div class="text-right">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#paket">Tambah
-                            Data</button>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <form action="{{ route('pdf.bantuan') }}" method="POST" target="_blank">
+                                @csrf
+                                <div class="form-group">
+                                    <select name="tahun" class="form-control">
+                                        <option disabled selected value="">Cari Tahun</option>
+                                        @foreach ($tahunList as $tahun)
+                                            <option value="{{ $tahun }}">{{ $tahun }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Cetak PDF</button>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#paket">Tambah
+                                    Data</button>
+                            </form>
+                        </div>
+                        {{-- <div class="col-md-6 text-right" style="margin-top:20px">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#paket">Tambah
+                                Data</button>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -44,9 +62,9 @@
                                 @foreach ($bantuan as $no => $data)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $data->penerima->nama ?? ''}}</td>
-                                        <td>{{ $data->penerima->jabatan ?? ''}}</td>
-                                        <td>{{ $data->penerima->kelurahan ?? ''}}</td>
+                                        <td>{{ $data->penerima->nama ?? '' }}</td>
+                                        <td>{{ $data->penerima->jabatan ?? '' }}</td>
+                                        <td>{{ $data->penerima->kelurahan ?? '' }}</td>
                                         <td class="text-center">{{ date('d-m-Y', strtotime($data->tanggal)) }}</td>
                                         <td>{{ $data->jenisBantuan }}</td>
                                         <td>Rp {{ number_format($data->jumlah, 0, ',', '.') }}</td>
@@ -91,7 +109,9 @@
                                     <select class="form-control" name="idPenerima">
                                         <option disabled selected value="">Pilih Penerima</option>
                                         @foreach ($penerima as $data)
-                                            <option value="{{ $data->id }}">{{ $data->nama . ' - ' . $data->jabatan . ' - ' . $data->kelurahan }}</option>
+                                            <option value="{{ $data->id }}">
+                                                {{ $data->nama . ' - ' . $data->jabatan . ' - ' . $data->kelurahan }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -103,7 +123,8 @@
                                         <div class="input-group-prepend datepicker"></div>
                                         {{-- <input type="text" class="form-control @error('tanggal') is-invalid @enderror"
                                             id="tanggal" placeholder="Masukkan Tanggal" name="tanggal" required> --}}
-                                            <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" required>
+                                        <input type="date" class="form-control @error('tanggal') is-invalid @enderror"
+                                            id="tanggal" name="tanggal" required>
                                         @error('tanggal')
                                             <small>{{ $message }}</small>
                                         @enderror
@@ -154,7 +175,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             var table = $('#bantuanTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -162,16 +183,43 @@
                     url: "{{ route('bantuan.get') }}",
                     type: "GET",
                 },
-                columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    { data: 'nama', name: 'nama' },
-                    { data: 'kelurahan', name: 'kelurahan' },
-                    { data: 'tanggal', name: 'tanggal' },
-                    { data: 'jenisBantuan', name: 'jenisBantuan' },
-                    { data: 'jumlah', name: 'jumlah' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'kelurahan',
+                        name: 'kelurahan'
+                    },
+                    {
+                        data: 'tanggal',
+                        name: 'tanggal'
+                    },
+                    {
+                        data: 'jenisBantuan',
+                        name: 'jenisBantuan'
+                    },
+                    {
+                        data: 'jumlah',
+                        name: 'jumlah'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
                 ],
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "lengthMenu": [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
                 "language": {
                     "lengthMenu": "Show _MENU_ entries",
                     "search": "Search:",

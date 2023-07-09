@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin-penerima/{id}', [PenerimaController::class, 'edit'])->name('edit.penerima');
         Route::post('/admin-penerima/delete/{id}', [PenerimaController::class, 'destroy'])->name('delete.penerima');
         Route::post('/admin-penerima/update{id}', [PenerimaController::class, 'update'])->name('update.penerima');
+        Route::get('/admin-penerima-pdf', [PenerimaController::class, 'generatePDF'])->name('pdf.penerima');
 
         // Bantuan
         Route::get('/admin-bantuan', [BantuanController::class, 'index'])->name('bantuan');
@@ -48,6 +49,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin-bantuan/{id}', [BantuanController::class, 'edit'])->name('edit.bantuan');
         Route::post('/admin-bantuan/delete/{id}', [BantuanController::class, 'destroy'])->name('delete.bantuan');
         Route::post('/admin-bantuan/update{id}', [BantuanController::class, 'update'])->name('update.bantuan');
+        Route::post('/admin-bantuan-pdf', [BantuanController::class, 'generatePDF'])->name('pdf.bantuan');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
