@@ -26,11 +26,12 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped thisTable" id="thisTable" style="width:100%;">
+                        <table class="table table-striped" style="width:100%;">
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>
                                     <th>Nama Penerima</th>
+                                    <th>Jabatan</th>
                                     <th>Kelurahan</th>
                                     <th>Tanggal</th>
                                     <th>Jenis Bantuan</th>
@@ -38,11 +39,13 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
+                            {{-- <tbody></tbody> --}}
                             <tbody>
                                 @foreach ($bantuan as $no => $data)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $data->penerima->nama ?? ''}}</td>
+                                        <td>{{ $data->penerima->jabatan ?? ''}}</td>
                                         <td>{{ $data->penerima->kelurahan ?? ''}}</td>
                                         <td class="text-center">{{ date('d-m-Y', strtotime($data->tanggal)) }}</td>
                                         <td>{{ $data->jenisBantuan }}</td>
@@ -87,8 +90,8 @@
                                     <label>Penerima</label>
                                     <select class="form-control" name="idPenerima">
                                         <option disabled selected value="">Pilih Penerima</option>
-                                        @foreach ($penerima as $j)
-                                            <option value="{{ $j->id }}">{{ $j->nama }}</option>
+                                        @foreach ($penerima as $data)
+                                            <option value="{{ $data->id }}">{{ $data->nama . ' - ' . $data->jabatan . ' - ' . $data->kelurahan }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -151,11 +154,44 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
     <script>
+        $(document).ready(function () {
+            var table = $('#bantuanTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('bantuan.get') }}",
+                    type: "GET",
+                },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'nama', name: 'nama' },
+                    { data: 'kelurahan', name: 'kelurahan' },
+                    { data: 'tanggal', name: 'tanggal' },
+                    { data: 'jenisBantuan', name: 'jenisBantuan' },
+                    { data: 'jumlah', name: 'jumlah' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                ],
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "language": {
+                    "lengthMenu": "Show _MENU_ entries",
+                    "search": "Search:",
+                    "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                    "paginate": {
+                        "first": "First",
+                        "last": "Last",
+                        "next": "Next",
+                        "previous": "Previous"
+                    }
+                }
+            });
+        });
+    </script>
+    {{-- <script>
         var table;
 
         $(document).ready(function() {
             // DataTable
-            table = $('.thisTable').DataTable({
+            table = $('#bantuanTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('bantuan.get') }}",
@@ -209,5 +245,5 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 @endsection

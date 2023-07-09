@@ -1,8 +1,8 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{ route('dashboard') }}"> <img alt="image" src="{{ url('otika') }}/assets/img/logo.png"
-                    class="header-logo" /> <span class="logo-name">SIAPBOS</span>
+            <a href=""> <img alt="image" src="{{ url('image') }}/Lambang_Kota_Madiun.png" class="header-logo" />
+                <span class="logo-name">SIAPBOS</span>
             </a>
         </div>
         @auth
@@ -10,7 +10,7 @@
                 <ul class="sidebar-menu">
                     <li class="menu-header">Main</li>
                     <li class="dropdown active">
-                        <a href="{{ route('dashboard') }}" class="nav-link"><i
+                        <a href="{{ route('dashboard.admin') }}" class="nav-link"><i
                                 data-feather="monitor"></i><span>Dashboard</span></a>
                     </li>
                     <li class="dropdown">
@@ -21,6 +21,24 @@
                             <li><a class="nav-link" href="{{ route('bantuan') }}">Bantuan</a></li>
                             {{-- <li><a class="nav-link" href="blog.html">Blog</a></li> <li><a class="nav-link" href="calendar.html">Calendar</a></li> --}}
                         </ul>
+                    </li>
+                </ul>
+            @endif
+            @if (Auth::user()->role === 'staff')
+                <ul class="sidebar-menu">
+                    <li class="menu-header">Main</li>
+                    <li class="dropdown active">
+                        <a href="{{ route('staff') }}" class="nav-link"><i
+                                data-feather="monitor"></i><span>Dashboard</span></a>
+                    </li>
+                </ul>
+            @endif
+            @if (Auth::user()->role === 'pimpinan')
+                <ul class="sidebar-menu">
+                    <li class="menu-header">Main</li>
+                    <li class="dropdown active">
+                        <a href="{{ route('pimpinan') }}" class="nav-link"><i
+                                data-feather="monitor"></i><span>Dashboard</span></a>
                     </li>
                 </ul>
             @endif

@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ url('otika') }}/assets/bundles/chocolat/dist/css/chocolat.css">
     <link rel="stylesheet" href="{{ url('otika') }}/assets/bundles/datatables/datatables.min.css">
     {{-- <link rel="stylesheet" href="{{ url('otika') }}/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css"> --}}
-    <link rel='shortcut icon' type='image/x-icon' href='{{ url('otika') }}/assets/img/favicon.ico' />
+    <link rel='shortcut icon' type='image/x-icon' href='{{ url('image') }}/Lambang_Kota_Madiun.png' />
 
     @section('css')
     @show

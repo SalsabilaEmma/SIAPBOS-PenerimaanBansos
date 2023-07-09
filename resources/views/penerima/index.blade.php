@@ -41,7 +41,7 @@
                                 @foreach ($penerima as $no => $data)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td class="text-center">{{ $data->nama }}</td>
+                                        <td>{{ $data->nama }}</td>
                                         <td>{{ $data->nik }}</td>
                                         <td>{{ $data->jabatan }}</td>
                                         <td>{{ $data->kelurahan }}</td>

@@ -3,7 +3,9 @@
 use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PenerimaController;
+use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +19,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+// Route::get('/', function () {
+//     return view('index');
+// });
 
+Route::get('/', [Controller::class, 'index'])->name('dashboard');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
@@ -28,8 +31,7 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::middleware(['role:admin'])->group(function () {
         // -----------------------------------------------------------------------------------------------------------  Admin
-        Route::get('/dashboard-admin', [Controller::class, 'admin'])->name('dashboard');
-
+        Route::get('/dashboard-admin', [Controller::class, 'admin'])->name('dashboard.admin');
         // Penerima
         Route::get('/admin-penerima', [PenerimaController::class, 'index'])->name('penerima');
         Route::get('/admin-penerima-get', [PenerimaController::class, 'indexGet'])->name('penerima.get');
@@ -53,11 +55,15 @@ Route::middleware('auth')->group(function () {
     });
     // -----------------------------------------------------------------------------------------------------------  Staff
     Route::middleware(['role:staff'])->group(function () {
-        Route::get('/staff', [Controller::class, 'staff'])->name('staff');
+        Route::get('/staff', [StaffController::class, 'index'])->name('staff');
+        Route::get('/staff-penerima', [StaffController::class, 'staffPenerima'])->name('staff.penerima');
+        Route::get('/staff-bantuan', [StaffController::class, 'staffBantuan'])->name('staff.bantuan');
     });
     // -----------------------------------------------------------------------------------------------------------  Pimpinan
     Route::middleware(['role:pimpinan'])->group(function () {
-        Route::get('/pimpinan', [Controller::class, 'pimpinan'])->name('pimpinan');
+        Route::get('/pimpinan', [PimpinanController::class, 'index'])->name('pimpinan');
+        Route::get('/pimpinan-penerima', [PimpinanController::class, 'pimpinanPenerima'])->name('pimpinan.penerima');
+        Route::get('/pimpinan-bantuan', [PimpinanController::class, 'pimpinanBantuan'])->name('pimpinan.bantuan');
     });
 });
 
