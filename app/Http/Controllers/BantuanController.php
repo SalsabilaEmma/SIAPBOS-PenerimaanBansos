@@ -7,6 +7,7 @@ use App\Models\Penerima;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 
 class BantuanController extends Controller
 {
@@ -15,7 +16,7 @@ class BantuanController extends Controller
         $bantuan = Bantuan::latest()->get();
         $penerima = Penerima::all();
         $tahunList = Bantuan::selectRaw('YEAR(tanggal) AS tahun')->distinct()->pluck('tahun')->toArray();
-        return view('bantuan.index', compact('bantuan','penerima','tahunList'));
+        return view('bantuan.index', compact('bantuan', 'penerima', 'tahunList'));
     }
 
     public function indexGet(Request $request)
@@ -103,8 +104,9 @@ class BantuanController extends Controller
 
     public function edit(Request $request, $id)
     {
+        $penerima = Penerima::all();
         $bantuan = Bantuan::findOrFail($id);
-        return view('bantuan.edit', compact('bantuan'));
+        return view('bantuan.edit', compact('bantuan', 'penerima'));
     }
     public function update(Request $request, string $id)
     {
@@ -113,6 +115,13 @@ class BantuanController extends Controller
         $bantuan->tanggal = $request->input('tanggal') ?? $bantuan->tanggal;
         $bantuan->jenisBantuan = $request->input('jenisBantuan') ?? $bantuan->jenisBantuan;
         $bantuan->jumlah = $request->input('jumlah') ?? $bantuan->jumlah;
+
+        if ($request->hasFile('bukti')) {
+            $file = $request->file('bukti');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('public/bukti', $fileName);
+            $bantuan->bukti = 'bukti/' . $fileName;
+        }
         $bantuan->save();
 
         return redirect()->route('bantuan')->with('success', 'Data Berhasil Diubah!');

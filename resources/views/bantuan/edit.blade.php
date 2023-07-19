@@ -10,30 +10,40 @@
                     <form action="{{ route('update.bantuan', $bantuan->id) }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
+                            <div class="col-sm-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Penerima</label>
+                                    <select class="form-control" name="idPenerima">
+                                        <option disabled selected  value="{{ $bantuan->idPenerima }}">{{ $bantuan->penerima->nama . ' - ' . $bantuan->penerima->jabatan .' - ' . $bantuan->penerima->kelurahan}}</option>
+                                        @foreach ($penerima as $data)
+                                            <option value="{{ $data->id }}">
+                                                {{ $data->nama . ' - ' . $data->jabatan . ' - ' . $data->kelurahan }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-sm-3 col-lg-3">
                                 <div class="form-group">
                                     <label>Tanggal</label>
                                     <div class="input-group">
-                                        <div class="input-group-prepend"></div>
-                                        {{-- <input type="text" class="form-control @error('tanggal') is-invalid @enderror"
-                                            id="tanggal" placeholder="Masukkan Tanggal" name="tanggal" required> --}}
-                                            <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" value="{{ $bantuan->tanggal }}" required>
-
+                                        <div class="input-group-prepend datepicker"></div>
+                                        <input type="date" class="form-control @error('tanggal') is-invalid @enderror"
+                                            id="tanggal" name="tanggal" value="{{ $bantuan->tanggal }}" required>
                                         @error('tanggal')
                                             <small>{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-5 col-lg-5">
+                            <div class="col-sm-3 col-lg-3">
                                 <div class="form-group">
                                     <label>Jenis Bantuan</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend"></div>
                                         <select class="form-control @error('jenisBantuan') is-invalid @enderror"
                                             id="jenisBantuan" name="jenisBantuan" required>
-                                            <option disabled selected value="{{ $bantuan->jenisBantuan }}">
-                                                {{ $bantuan->jenisBantuan }}</option>
+                                            <option disabled selected value="{{ $bantuan->jenisBantuan }}">{{ $bantuan->jenisBantuan }}</option>
                                             <option value="Uang">Uang</option>
                                             <option value="Sembako">Sembako</option>
                                         </select>
@@ -43,18 +53,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-lg-4">
+                            <div class="col-sm-6 col-lg-6">
                                 <div class="form-group">
                                     <label>Jumlah</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                         </div>
                                         <input type="number" class="form-control @error('jumlah') is-invalid @enderror"
-                                            id="jumlah" placeholder="Masukkan Jumlah" name="jumlah"
-                                            value="{{ $bantuan->jumlah }}" required>
+                                            id="jumlah" placeholder="Masukkan Jumlah" name="jumlah" value="{{ $bantuan->jumlah }}" required>
                                         @error('jumlah')
                                             <small>{{ $message }}</small>
                                         @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Upload Bukti Trasfer</label>
+                                    <div class="input-group">
+                                        <input type="file" class="form-control" id="bukti" name="bukti">
                                     </div>
                                 </div>
                             </div>

@@ -19,8 +19,11 @@
                         <ul class="dropdown-menu">
                             <li><a class="nav-link" href="{{ route('penerima') }}">Penerima</a></li>
                             <li><a class="nav-link" href="{{ route('bantuan') }}">Bantuan</a></li>
-                            {{-- <li><a class="nav-link" href="blog.html">Blog</a></li> <li><a class="nav-link" href="calendar.html">Calendar</a></li> --}}
                         </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="{{ route('user') }}" class="nav-link"><i
+                                data-feather="user"></i><span>User</span></a>
                     </li>
                 </ul>
             @endif

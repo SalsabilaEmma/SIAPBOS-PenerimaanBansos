@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('jenisBantuan',100);
             $table->string('jumlah',100);
             $table->text('keterangan')->nullable();
+            $table->string('bukti')->nullable();
             $table->timestamps();
         });
     }

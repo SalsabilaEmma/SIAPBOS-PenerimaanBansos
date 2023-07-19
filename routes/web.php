@@ -6,6 +6,8 @@ use App\Http\Controllers\PenerimaController;
 use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,6 +52,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin-bantuan/delete/{id}', [BantuanController::class, 'destroy'])->name('delete.bantuan');
         Route::post('/admin-bantuan/update{id}', [BantuanController::class, 'update'])->name('update.bantuan');
         Route::post('/admin-bantuan-pdf', [BantuanController::class, 'generatePDF'])->name('pdf.bantuan');
+
+        // User
+        Route::get('/admin-user', [UserController::class, 'index'])->name('user');
+        Route::get('/admin-user/{id}', [UserController::class, 'edit'])->name('edit.user');
+        Route::post('/admin-usr/update{id}', [UserController::class, 'update'])->name('update.user');
+        Route::post('/admin-user/delete/{id}', [UserController::class, 'destroy'])->name('delete.user');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
