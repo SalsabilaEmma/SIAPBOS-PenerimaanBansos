@@ -124,7 +124,7 @@
                 <tr>
                     <td style="text-align:center; width:20%; vertical-align:middle; border:none;">
                         {{-- <img src="{{ public_path('/image/Lambang_Kota_Madiun.png') }}" style="width:3cm;"> --}}
-                        <img src="{{ url('public/image/Lambang_Kota_Madiun.png') }}" style="width:3cm;">
+                        {{-- <img src="{{ url('public/image/Lambang_Kota_Madiun.png') }}" style="width:3cm;"> --}}
                     </td>
                     <td style="text-align:center; width:80%; border:none; padding-right:200px; margin-left:200px">
                         <p style="font-size:14pt;">

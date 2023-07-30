@@ -7,7 +7,7 @@
                     <h4>Edit Data Bantuan</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('update.bantuan', $bantuan->id) }}" method="POST">
+                    <form action="{{ route('update.bantuan', $bantuan->id) }}" method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-sm-6 col-lg-6">

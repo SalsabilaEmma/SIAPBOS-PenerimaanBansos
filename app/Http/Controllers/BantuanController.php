@@ -117,11 +117,23 @@ class BantuanController extends Controller
         $bantuan->jumlah = $request->input('jumlah') ?? $bantuan->jumlah;
 
         if ($request->hasFile('bukti')) {
+            $request->validate([
+                'bukti' => 'mimes:jpeg,png,pdf|max:2048',
+            ]);
+
+            if ($bantuan->bukti) {
+                // Delete the old file before uploading the new one
+                Storage::delete($bantuan->bukti);
+            }
+
             $file = $request->file('bukti');
             $fileName = time() . '_' . $file->getClientOriginalName();
+
+            // Simpan file PDF di direktori public/bukti
             $filePath = $file->storeAs('public/bukti', $fileName);
-            $bantuan->bukti = 'bukti/' . $fileName;
+            $bantuan->bukti = $filePath;
         }
+
         $bantuan->save();
 
         return redirect()->route('bantuan')->with('success', 'Data Berhasil Diubah!');

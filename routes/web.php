@@ -6,6 +6,7 @@ use App\Http\Controllers\PenerimaController;
 use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin-user/{id}', [UserController::class, 'edit'])->name('edit.user');
         Route::post('/admin-usr/update{id}', [UserController::class, 'update'])->name('update.user');
         Route::post('/admin-user/delete/{id}', [UserController::class, 'destroy'])->name('delete.user');
+
+        // Bantuan
+        Route::get('/admin-upload', [UploadController::class, 'index'])->name('upload');
+        Route::post('/admin-upload/store', [UploadController::class, 'store'])->name('store.upload');
+        Route::post('/admin-upload/delete/{id}', [UploadController::class, 'destroy'])->name('delete.upload');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
